@@ -19,10 +19,10 @@ class Snake:
         self.squares = []
 
         for i in range(0, BODY_PARTS):
-            self.coordinates.append([0,0])
+            self.coordinates.append([0, 0])
 
         for x, y in self.coordinates:
-            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y+SPACE_SIZE, fill=SNAKE_COLOUR, tags="snake")
+            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOUR, tags="snake")
             self.squares.append(square)
 
 
@@ -37,11 +37,10 @@ class Food:
 
 
 def next_turn(snake, food):
-
-    x , y = snake.coordinates[0]
+    x, y = snake.coordinates[0]
 
     if direction == "up":
-        y-= SPACE_SIZE
+        y -= SPACE_SIZE
     elif direction == "down":
         y += SPACE_SIZE
     elif direction == "left":
@@ -49,8 +48,8 @@ def next_turn(snake, food):
     elif direction == "right":
         x += SPACE_SIZE
 
-    snake.coordinates.insert(0, (x,y))
-    square = canvas.create_rectangle(x, y, x +SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOUR)
+    snake.coordinates.insert(0, (x, y))
+    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOUR)
     snake.squares.insert(0, square)
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
@@ -72,30 +71,31 @@ def next_turn(snake, food):
 
 
 def change_direction(new_direction):
-
     global direction
 
     if new_direction == 'left':
         if direction != 'right':
             direction = new_direction
+
     elif new_direction == 'right':
         if direction != 'left':
             direction = new_direction
+
     elif new_direction == 'up':
         if direction != 'down':
             direction = new_direction
+
     elif new_direction == 'down':
         if direction != 'up':
             direction = new_direction
 
 
 def check_collisons(snake):
-
     x, y = snake.coordinates[0]
-
     if x < 0 or x >= GAME_WIDTH:
         print("Game Over")
         return True
+
     elif y < 0 or y >= GAME_HEIGHT:
         print("Game Over")
         return True
@@ -109,41 +109,37 @@ def check_collisons(snake):
 
 
 def game_over():
-
-
     canvas.delete(ALL)
-    canvas.create_text(canvas.winfo_width() / 2, canvas.winfo_height()/2,
+    canvas.create_text(canvas.winfo_width() / 2, canvas.winfo_height() / 2,
                        font=('helvetica', 70), text="Game Over", fill="red", tags="gameover")
 
-window = Tk()  # initialising the window
+
+# initialising the window
+window = Tk()
 window.title("Snake Game")
 window.resizable(False, False)
-
 score = 0
 direction = 'down'
-
 label = Label(window, text="Score:{}".format(score), font=('helvetica', 40))
 label.pack()  # allows it to be added to the window
 canvas = Canvas(window, bg=BACKGROUND_COLOUR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
 window.update()  # renders the window
 
+# Sets the gui to be centered of the users screen
 window_width = window.winfo_width()
 window_height = window.winfo_height()
 screen_width = window.winfo_screenwidth()
 screen_height = window.winfo_screenheight()
-
 x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
-
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")
 
-
+# binding keys to function
 window.bind('<Left>', lambda event: change_direction('left'))
 window.bind('<Right>', lambda event: change_direction('right'))
 window.bind('<Up>', lambda event: change_direction('up'))
 window.bind('<Down>', lambda event: change_direction('down'))
-
 
 snake = Snake()
 food = Food()
