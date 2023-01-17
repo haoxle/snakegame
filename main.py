@@ -6,8 +6,8 @@ GAME_HEIGHT = 700
 SPEED = 50
 SPACE_SIZE = 20
 BODY_PARTS = 3
-SNAKE_COLOUR = "#00FF00"
-FOOD_COLOUR = "#FF0000"
+SNAKE_COLOUR = "#2a9d8f"
+FOOD_COLOUR = "#e76f51"
 BACKGROUND_COLOUR = "#000000"
 
 
@@ -54,16 +54,14 @@ def next_turn(snake, food):
 
     if x == food.coordinates[0] and y == food.coordinates[1]:
         global score
-
         score += 1
-        label.config(text="Score:{}".format(score))
+        label.config(text="Score: {}".format(score))
         canvas.delete("food")
         food = Food()
     else:
         del snake.coordinates[-1]
         canvas.delete(snake.squares[-1])
         del snake.squares[-1]
-
     if check_collisons(snake):
         game_over()
     else:
@@ -111,7 +109,7 @@ def check_collisons(snake):
 def game_over():
     canvas.delete(ALL)
     canvas.create_text(canvas.winfo_width() / 2, canvas.winfo_height() / 2,
-                       font=('helvetica', 70), text="Game Over", fill="red", tags="gameover")
+                       font=('helvetica', 70), text="Game Over", fill="#f4a261", tags="gameover")
 
 
 # initialising the window
@@ -120,7 +118,7 @@ window.title("Snake Game")
 window.resizable(False, False)
 score = 0
 direction = 'down'
-label = Label(window, text="Score:{}".format(score), font=('helvetica', 40))
+label = Label(window, text="Score: {}".format(score), font=('helvetica', 40))
 label.pack()  # allows it to be added to the window
 canvas = Canvas(window, bg=BACKGROUND_COLOUR, height=GAME_HEIGHT, width=GAME_WIDTH)
 canvas.pack()
